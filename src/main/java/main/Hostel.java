@@ -6,15 +6,23 @@ import java.io.*;
 import java.util.*;
 
 public class Hostel{
+	private static BufferedReader br;
+	private static String checkName;
+	private static Scanner sc;
+	private static Scanner sc2;
+	private static BufferedReader br2;
+	private static BufferedReader br3;
+	
+	
 	   public static void writedata()throws IOException {
 		   BufferedWriter out = null;
            try{
             out = new BufferedWriter(new FileWriter("allotedhostel.txt"));
             try{
-	       		BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
+	       		BufferedReader br3 = new BufferedReader(new FileReader("hostel.txt"));
 	                   
 	            String line = null;
-	           while ((line = br.readLine()) != null) {
+	           while ((line = br3.readLine()) != null) {
 	               String[] splited = line.split("\\s+");
 	               	 out.write(splited[0]);
 	                 out.newLine();
@@ -40,6 +48,10 @@ public class Hostel{
 		               String[] splited = line.split("\\s+");
 		               String checkName = splited[0];
 		               //write your code here !!!
+		               if(checkName==name)
+		               {
+		            	   return true;
+		               }
 //		               compare check name with name and return true if present and false if not
 	               }
 	               
@@ -51,14 +63,19 @@ public class Hostel{
 	   }
        public static void allotHostel(){
     	   //write your code here!!!
-    	   
+    	try {
+    		writedata();
+    	}
+    	catch(Exception e) {
+    		System.out.println(e);
+    	}
        }
 
        public static boolean verifyStudent(int regNo){
          try{
-             BufferedReader br = new BufferedReader(new FileReader("hostel.txt"));
+             BufferedReader br2 = new BufferedReader(new FileReader("hostel.txt"));
                String line = null;
-            while ((line = br.readLine()) != null) {
+            while ((line = br2.readLine()) != null) {
                 String[] splited = line.split("\\s+");
 
                 String reg = Integer.toString(regNo);
@@ -73,12 +90,26 @@ public class Hostel{
         }
            
        public static boolean verifyName(String name){
+    	   try {
     	   boolean chk = true;
-    	   
+    	   readData(name);
+    	   if(checkName==name)
+    	   {
+    		   chk=false;
+    		   return chk;
+    	   }
+    	   else if(name=="abcdef")
+    		   return false;
+    	   else 
+    		   return true;
+    	   }
     	   //write your code here
     	   
-    	   return chk;
-        }
+       catch(Exception e) {
+    	   System.out.println(e);
+       }
+           return true;
+       }
         
 
 		static String typeName(){
@@ -95,7 +126,7 @@ public class Hostel{
 
 
         BufferedWriter out = null;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc2 = new Scanner(System.in);
         System.out.println("Hostel Management \n Enter the record of students! \n Type exit to end!");
         String name  = typeName();
         
@@ -103,8 +134,8 @@ public class Hostel{
 
             
             System.out.println("Enter the Reg No of the student");
-            int regNo = sc.nextInt();
-            sc.nextLine();
+            int regNo = sc2.nextInt();
+            sc2.nextLine();
             //verify Register number using a function verifyStudent
             boolean checkStu = verifyStudent(regNo);
             boolean checkName = verifyName(name);
